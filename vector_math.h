@@ -38,9 +38,59 @@
 #define VECTOR_MATH_H
 
 // #include "config.h"
-
+#ifdef __CUDACC__
 #include <cuda_runtime.h>
+#else
+struct int1{int x;};
+struct int2{int x, y;};
+struct int3{int x, y, z;};
+struct int4{int x, y, z, w;};
 
+int1 make_int1(int x){return {x};};
+int2 make_int2(int x, int y){return {x, y};};
+int3 make_int3(int x, int y, int z){return {x, y, z};};
+int4 make_int4(int x, int y, int z, int w){return {x, y, z, w};};
+
+struct uint1{unsigned int x;};
+struct uint2{unsigned int x, y;};
+struct uint3{unsigned int x, y, z;};
+struct uint4{unsigned int x, y, z, w;};
+
+uint1 make_uint1(unsigned int x){return {x};};
+uint2 make_uint2(unsigned int x, unsigned int y){return {x, y};};
+uint3 make_uint3(unsigned int x, unsigned int y, unsigned int z){return {x, y, z};};
+uint4 make_uint4(unsigned int x, unsigned int y, unsigned int z, unsigned int w){return {x, y, z, w};};
+
+struct float1{float x;};
+struct float2{float x, y;};
+struct float3{float x, y, z;};
+struct float4{float x, y, z, w;};
+
+float1 make_float1(float x){return {x};}
+float2 make_float2(float x, float y){return {x, y};}
+float3 make_float3(float x, float y, float z){return {x, y, z};}
+float4 make_float4(float x, float y, float z, float w){return {x, y, z, w};}
+
+struct longlong1{long long int x;};
+struct longlong2{long long int x, y;};
+struct longlong3{long long int x, y, z;};
+struct longlong4{long long int x, y, z, w;};
+
+longlong1 make_longlong1(long long int x){return {x};};
+longlong2 make_longlong2(long long int x, long long int y){return {x, y};};
+longlong3 make_longlong3(long long int x, long long int y, long long int z){return {x, y, z};};
+longlong4 make_longlong4(long long int x, long long int y, long long int z, long long int w){return {x, y, z, w};};
+
+struct ulonglong1{unsigned long long int x;};
+struct ulonglong2{unsigned long long int x, y;};
+struct ulonglong3{unsigned long long int x, y, z;};
+struct ulonglong4{unsigned long long int x, y, z, w;};
+
+ulonglong1 make_ulonglong1(unsigned long long int x){return {x};};
+ulonglong2 make_ulonglong2(unsigned long long int x, unsigned long long int y){return {x, y};};
+ulonglong3 make_ulonglong3(unsigned long long int x, unsigned long long int y, unsigned long long int z){return {x, y, z};};
+ulonglong4 make_ulonglong4(unsigned long long int x, unsigned long long int y, unsigned long long int z, unsigned long long int w){return {x, y, z, w};};
+#endif
 
 #if defined(__CUDACC__) || defined(__CUDABE__)
 #define VECTOR_MATH_API __forceinline__ __host__ __device__

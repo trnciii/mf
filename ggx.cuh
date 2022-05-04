@@ -5,6 +5,8 @@
 
 #ifdef __CUDACC__
 
+#define __device__ __device__
+
 #include <curand_kernel.h>
 
 struct RNG{
@@ -30,6 +32,8 @@ private:
 };
 
 #else // __CUDACC__
+
+#define __device__
 
 #include <random>
 
