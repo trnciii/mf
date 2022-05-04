@@ -5,25 +5,25 @@
 
 #ifdef __CUDACC__
 
-#define __device__ __device__
+#define __DEVICE__ __device__
 
 #include <curand_kernel.h>
 
 struct RNG{
 
-	__device__ RNG(int i=0){
+	__DEVICE__ RNG(int i=0){
 		curand_init(0, i, 0, &state);
 	}
 
-	__device__ float uniform(){
+	__DEVICE__ float uniform(){
 		return curand_uniform(&state);
 	}
 
-	__device__ float2 uniform2(){
+	__DEVICE__ float2 uniform2(){
 		return make_float2(curand_uniform(&state), curand_uniform(&state));
 	}
 
-	__device__ float3 uniform3(){
+	__DEVICE__ float3 uniform3(){
 		return make_float3(curand_uniform(&state), curand_uniform(&state), curand_uniform(&state));
 	}
 
@@ -33,7 +33,7 @@ private:
 
 #else // __CUDACC__
 
-#define __device__
+#define __DEVICE__
 
 #include <random>
 
@@ -62,7 +62,7 @@ private:
 
 
 
-__device__ float3 sample_uniform_hemisphere(float u1, float u2){
+__DEVICE__ float3 sample_uniform_hemisphere(float u1, float u2){
 	float r = sqrt(1 - u1*u1);
 	u2 *= 2*M_PI;
 	return make_float3(r*cos(u2), r*sin(u2), u1);
@@ -72,7 +72,7 @@ __device__ float3 sample_uniform_hemisphere(float u1, float u2){
 
 namespace GGX{
 
-__device__ float NDF(float3 m, float alpha){
+__DEVICE__ float NDF(float3 m, float alpha){
 	if(m.z <= 0) return 0;
 	if(alpha < 1e-6) return (fabs(1 - m.z) < 1e-6)? 1 : 0;
 
@@ -83,12 +83,12 @@ __device__ float NDF(float3 m, float alpha){
 }
 
 
-__device__ float G1_distant(float3 v, float alpha){
+__DEVICE__ float G1_distant(float3 v, float alpha){
 	float t = 1/(v.z*v.z) - 1;
 	return 2/(1 + sqrt(1 + alpha*alpha*t*t));
 }
 
-__device__ float G1(float3 v, float3 m, float alpha){
+__DEVICE__ float G1(float3 v, float3 m, float alpha){
 	if(v.z > 1-1e-6) return 1;
 	if(dot(v, m)/v.z < 0) return 0;
 
@@ -97,7 +97,7 @@ __device__ float G1(float3 v, float3 m, float alpha){
 }
 
 
-__device__ float normalization_constraint(float3 v, float alpha, uint32_t sample_size){
+__DEVICE__ float normalization_constraint(float3 v, float alpha, uint32_t sample_size){
 	float accum = 0;
 	RNG rng(0);
 
