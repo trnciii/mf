@@ -84,16 +84,16 @@ __DEVICE__ float NDF(float3 m, float alpha){
 
 
 __DEVICE__ float G1_distant(float3 v, float alpha){
-	float t = 1/(v.z*v.z) - 1;
-	return 2/(1 + sqrt(1 + alpha*alpha*t*t));
+	float tan2 = 1/(v.z*v.z) - 1;
+	return 2/(1 + sqrt(1 + alpha*alpha*tan2));
 }
 
 __DEVICE__ float G1(float3 v, float3 m, float alpha){
 	if(v.z > 1-1e-6) return 1;
 	if(dot(v, m)/v.z < 0) return 0;
 
-	float t = 1/(v.z*v.z) - 1;
-	return 2/(1 + sqrt(1 + alpha*alpha*t*t));
+	float tan2 = 1/(v.z*v.z) - 1;
+	return 2/(1 + sqrt(1 + alpha*alpha*tan2));
 }
 
 
